@@ -16,18 +16,31 @@ class Display {
         if (map.size() == 0) {
             System.out.println("No data available : (");
         } else {
+            System.out.println();
+            for (int i = 0; i < 75; i++) {
+                System.out.print("-");
+            }
+            System.out.println();
+            System.out.print("Name\t");
+            System.out.print("Roll Number\t");
+            System.out.print("Age\t");
+            System.out.print("Address\t\t\t");
+            System.out.print("Courses\n\n");
 
-            System.out.println("User Details : ) ");
+            // System.out.println("User Details : ) ");
             for (Map.Entry itr : map.entrySet()) {
                 int roll_num = (int) itr.getKey();
                 User user = (User) itr.getValue();
-                System.out.println("Roll number : " + roll_num);
-                System.out.println("User's Fullname : " + user.Name);
-                System.out.println(user.Name + "'s Address : " + user.Address);
-                System.out.println(user.Name + "'s Age : " + user.age);
-                System.out.println(user.Name + "'s Courses : ");
+                System.out.print(user.Name + "\t\t");
+
+                System.out.print(roll_num + "\t");
+
+                System.out.print(user.age + "\t");
+
+                System.out.print(user.Address + "\t");
+
                 for (int j = 0; j < user.courses.length; j++) {
-                    System.out.println(user.courses[j]);
+                    System.out.print(user.courses[j] + " ");
                 }
             }
         }
@@ -100,9 +113,9 @@ class java_assn2 {
                 System.out.println("User added Successfully : ) ");
                 // Print.print_userdetails(map);
 
-                System.out.println("Do you want to add more ? ");
+                // System.out.println("Do you want to add more ? ");
 
-                choice2 = sc.next().charAt(0);
+                // choice2 = sc.next().charAt(0);
             } else if (choice == 2) {
                 Print.print_userdetails(map);
             } else if (choice == 3) {
