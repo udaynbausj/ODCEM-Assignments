@@ -4,17 +4,10 @@ import java.util.Map;
 import java.util.Scanner;
 import java.io.*;
 
-class User {
+class User implements java.io.Serializable {
     String Name, Address;
-    int age;
+    int age, roll_number;
     char courses[] = {};
-
-    User(String Name, String Address, int age, char courses[]) {
-        this.Name = Name;
-        this.Address = Address;
-        this.age = age;
-        this.courses = courses;
-    }
 
 }
 
@@ -30,9 +23,9 @@ class Display {
                 User user = (User) itr.getValue();
                 System.out.println("Roll number : " + roll_num);
                 System.out.println("User's Fullname : " + user.Name);
-                System.out.println("User's Address : " + user.Address);
-                System.out.println("User's Age : " + user.age);
-                System.out.println("User's Courses : ");
+                System.out.println(user.Name + "'s Address : " + user.Address);
+                System.out.println(user.Name + "'s Age : " + user.age);
+                System.out.println(user.Name + "'s Courses : ");
                 for (int j = 0; j < user.courses.length; j++) {
                     System.out.println(user.courses[j]);
                 }
@@ -44,20 +37,22 @@ class Display {
 class java_assn2 {
     public static void main(String[] args) throws IOException {
         HashMap<Integer, User> map = new HashMap<>();
-        System.out.println("Select one of the following options : ");
-        System.out.println("1.Add User Details");
-        System.out.println("2.Display User Details");
-        System.out.println("3.Delete User Details");
-        System.out.println("4.Save User Details");
-        System.out.println("5.Exit");
         Scanner sc = new Scanner(System.in);
-
+        User user_object = new User();
         Display Print = new Display();
+        int choice;
+        do {
+            System.out.println("Select one of the following options : ");
+            System.out.println("1.Add User Details");
+            System.out.println("2.Display User Details");
+            System.out.println("3.Delete User Details");
+            System.out.println("4.Save User Details");
+            System.out.println("5.Exit");
 
-        int choice = sc.nextInt();
-        char choice2;
-        if (choice == 1) {
-            do {
+            choice = sc.nextInt();
+            char choice2;
+
+            if (choice == 1) {
                 System.out.println("\nPlease Enter Full Name : ");
                 BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
                 String Fullname = br.readLine();
@@ -95,15 +90,48 @@ class java_assn2 {
                     }
                 }
                 // lets prepare object and prepopulate it with user input : )
-                User user_object = new User(Fullname, Address, age, courses);
+                // User user_object = new User(Fullname, Address, age, courses,roll_number);
+                user_object.Name = Fullname;
+                user_object.Address = Address;
+                user_object.age = age;
+                user_object.courses = courses;
+                user_object.roll_number = roll_number;
                 map.put(roll_number, user_object);
                 System.out.println("User added Successfully : ) ");
-                Print.print_userdetails(map);
+                // Print.print_userdetails(map);
 
                 System.out.println("Do you want to add more ? ");
 
                 choice2 = sc.next().charAt(0);
-            } while (choice2 == 'y');
-        }
+            } else if (choice == 2) {
+                Print.print_userdetails(map);
+            } else if (choice == 3) {
+                if (map.size() > 0) {
+                    System.out.println("Please enter the roll number of the user to delete his/her details : ");
+                    int deleteRollNumber = sc.nextInt();
+                    map.remove(deleteRollNumber);
+                    System.out.println("User's Details are Purged : | ");
+                } else {
+                    System.out.println("Nothing to Delete : () ");
+                    return;
+                }
+            } else if (choice == 4) {
+                // serialization of JAVA goes here : )
+                if (map.size() > 0) {
+                    System.out.println("Saving the current state : ) ");
+                    String filename = "Assaignment2_OneDirect.txt";
+                    FileOutputStream file = new FileOutputStream(filename);
+                    ObjectOutputStream out = new ObjectOutputStream(file);
+                    out.writeObject(user_object);
+                    out.close();
+                    file.close();
+                } else {
+                    System.out.println("Nothing to save :(");
+                }
+            } else {
+                System.out.println("Thanks for choosing our services ; )");
+                return;
+            }
+        } while (choice != 5);
     }
 }
