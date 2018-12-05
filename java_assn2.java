@@ -3,6 +3,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Scanner;
 import java.io.*;
+import java.util.*;
 
 class User implements java.io.Serializable {
     String Name, Address;
@@ -47,12 +48,42 @@ class Display {
     }
 }
 
+class customisedSort_Rollnumber implements Comparator<User> {
+    public int compare(User a, User b) {
+        return a.roll_number - b.roll_number;
+    }
+}
+
+class customisedSort_Name implements Comparator<User> {
+    public int compare(User a, User b) {
+        return a.Name.compareTo(b.Name);
+    }
+}
+
+class customisedSort_Age implements Comparator<User> {
+    public int compare(User a, User b) {
+        return a.age - b.age;
+    }
+}
+
+class customisedSort_Address implements Comparator<User> {
+    public int compare(User a, User b) {
+        return a.Address.compareTo(b.Address);
+    }
+}
+
 class java_assn2 {
     public static void main(String[] args) throws IOException {
         HashMap<Integer, User> map = new HashMap<>();
         Scanner sc = new Scanner(System.in);
         User user_object = new User();
         Display Print = new Display();
+
+        customisedSort_Address custom_add = new customisedSort_Address();
+        customisedSort_Age custom_age = new customisedSort_Age();
+        customisedSort_Rollnumber custom_roll = new customisedSort_Rollnumber();
+        customisedSort_Name custom_name = new customisedSort_Name();
+
         int choice;
         do {
             System.out.println("Select one of the following options : ");
@@ -118,6 +149,20 @@ class java_assn2 {
                 // choice2 = sc.next().charAt(0);
             } else if (choice == 2) {
                 Print.print_userdetails(map);
+                System.out.println("Do you want any cusomisation say ....\n" + "1)Sort Based on Roll number ?\n"
+                        + "2)Sort Based on Name ?\n" + "3)Sort Based on Age?\n" + "4)Sort Based on Address?\n"
+                        + "Choose on of the following options :  ");
+                int choice_sort = sc.nextInt();
+                if (choice_sort == 1) {
+                    System.out.println("Sorting based on Roll number : ");
+                    custom_roll.compare(a, b);
+                } else if (choice_sort == 2) {
+
+                } else if (choice_sort == 3) {
+
+                } else {
+
+                }
             } else if (choice == 3) {
                 if (map.size() > 0) {
                     System.out.println("Please enter the roll number of the user to delete his/her details : ");
