@@ -12,13 +12,15 @@ import com.beust.jcommander.JCommander;
 
 class DETAILS{
     String name,type;
-    float price;
+    double price;
     int quantity;
-    DETAILS(String name,int quantity,float price,String type){
+    double Total_price;
+    DETAILS(String name,int quantity,double price,String type,double Total_price){
         this.name = name;
         this.quantity = quantity;
         this.price = price;
         this.type = type;
+        this.Total_price = Total_price;
     }
 }
 
@@ -51,7 +53,7 @@ public class Assaignment1 {
     @Parameter(names={"-name"})
     String Name;
     @Parameter(names={"-price"})
-    float price;
+    double price;
     @Parameter(names={"-quantity"})
     int quantity;
     @Parameter(names={"-type"},required = true)
@@ -68,10 +70,25 @@ public class Assaignment1 {
         //BufferedReader input
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         char choice;
-
+        double total_price=0;
         //Creating a Datastructure to add new details
+        if(type.equals("manufactured")){
+            total_price = price + 0.125*price + 0.02*(price + 0.125*(price));
+        }else if(type.equals("raw")){
+            total_price =  price + 0.125*(price);
+        }else{
+            total_price =  price + 0.1*(price) + 0.125*(price);
+            if(total_price<=100){
+                total_price+=5;
+            }else if(total_price>100 && total_price<=200){
+                total_price+=10;
+            }else{
+                total_price += (0.05*total_price);
+            }
+        }
+
         Vector<DETAILS>detailsArray = new Vector<>();
-        DETAILS d = new DETAILS(Name,quantity,price,type);
+        DETAILS d = new DETAILS(Name,quantity,price,type,total_price);
 
         //add user details
         detailsArray.add(d);
@@ -83,7 +100,7 @@ public class Assaignment1 {
 
 
             do {
-                float Price=0;int Quantity=0;String Name,Type="";
+                float Price=0,Sales_tax = 0;int Quantity=0,type_choice = 0;String Name,Type="";
                 HashSet<Integer> choices = new HashSet<>();
                 System.out.println("\nEnter the name of the items : ");
                 String name = br.readLine();
@@ -112,7 +129,7 @@ public class Assaignment1 {
                             System.out.println("1.Raw\n2.Manufactured\n3.Imported");
 
 
-                            int type_choice = Integer.parseInt(br.readLine());
+                            type_choice = Integer.parseInt(br.readLine());
 
                             try {
                                 validate_user_type_choice(type_choice);
@@ -124,8 +141,10 @@ public class Assaignment1 {
 
                             if (type_choice == 1) {
                                 Type = "Raw";
+
                             } else if (type_choice == 2) {
                                 Type = "Manufactured";
+
                             } else {
                                 Type = "Imported";
                             }
@@ -145,17 +164,40 @@ public class Assaignment1 {
                 }
                 System.out.println("Do you want to add more ? (y/n)");
                 //takes  the input choice
+
                 choice_end = (char) br.read();
                 try {
                     validate_user_choice1(choice_end);
                 } catch (Exception e) {
                     System.out.println("Exception Occured : " + e);
                 }
-
-                DETAILS new_d  = new DETAILS(Name,Quantity,Price,Type);
+                if(type_choice == 1){
+                    total_price = Price + 0.125*Price;
+                }else if(type_choice==2){
+                    total_price = Price + 0.125*Price + 0.02*(Price + 0.125*(Price));
+                }else{
+                    total_price =  price + 0.1*(price) + 0.125*(price);
+                    if(total_price<=100){
+                        total_price+=5;
+                    }else if(total_price>100 && total_price<=200){
+                        total_price+=10;
+                    }else{
+                        total_price += (0.05*total_price);
+                    }
+                }
+                DETAILS new_d  = new DETAILS(Name,Quantity,Price,Type,total_price*quantity);
                 detailsArray.add(new_d);
             } while (choice_end != 'n');
+
+            System.out.println("The items registered so far.....");
+            Iterator itr = detailsArray.iterator();
+            while(itr.hasNext()){
+                DETAILS dt = (DETAILS) itr.next();
+                System.out.println(dt.name + " " + dt.type+ " "+dt.price+" "+dt.quantity+" "+dt.Total_price);
+            }
+
         }else{
+
             System.out.println("Thankyou :)");
         }
 
