@@ -10,7 +10,7 @@ public class Assaignment2 implements Runnable{
             Connection con = DriverManager.getConnection(
                     "jdbc:mysql://localhost:3306/sonoo",
                     "root",
-                    "udayvitian"
+                    "root"
             );
             Statement smt = con.createStatement();
             ResultSet rs = smt.executeQuery("select * from emp");
