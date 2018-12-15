@@ -104,8 +104,8 @@ class Mythread2 implements Runnable {
 
 public class Threads {
     public static void main(String[] args) {
-        new Mythread1("ThreadOne");
-        new Mythread2("ThreadTwo");
+        new Mythread1("JDBC Handler");
+        new Mythread2("Information Retriever");
         System.out.println("Main Thread Exiting : ");
     }
 }
