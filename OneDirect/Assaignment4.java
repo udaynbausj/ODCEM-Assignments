@@ -48,12 +48,13 @@ class Mythread1 implements Runnable {
 
                     // we shall calculate the total here;
                     double TOTAL = 0;
-                    if (d.type.toLowerCase() == "raw") {
+                    d.type = d.type.toLowerCase();
+                    if (d.type.equals("raw")) {
                         TOTAL = d.price + 0.125 * (d.price);
-                    } else if (d.type.toLowerCase() == "manufactured") {
+                    } else if (d.type.equals("manufactured")) {
                         TOTAL = d.price + 0.125 * d.price + 0.02 * (d.price + 0.125 * (d.price));
 
-                    } else if (d.type.toLowerCase() == "imported") {
+                    } else if (d.type.equals("imported")) {
                         TOTAL = d.price + 0.1 * (d.price) + 0.125 * (d.price);
                         if (TOTAL <= 100) {
                             TOTAL += 5;
@@ -65,7 +66,7 @@ class Mythread1 implements Runnable {
                     }
 
                     d.total = TOTAL;
-
+                    System.out.println("\n\nTotal Cost of the item " + d.name + " : " + d.total);
                     Details.add(d);
                 }
 
