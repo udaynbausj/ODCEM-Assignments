@@ -1,4 +1,22 @@
 import java.sql.*;
+import java.util.*;
+
+import javax.xml.soap.Detail;
+
+class ITEM_DETAILS {
+    String name, type;
+    double price;
+    int quantity;
+    double total;
+
+    ITEM_DETAILS(String name, String type, double price, int quantity, double total) {
+        this.name = name;
+        this.type = type;
+        this.price = price;
+        this.quantity = quantity;
+        this.total = total;
+    }
+}
 
 class Mythread1 implements Runnable {
     String name;
@@ -11,17 +29,44 @@ class Mythread1 implements Runnable {
         t.start();
     }
 
+    Vector<ITEM_DETAILS> Details = new Vector<>();
+
     public void run() {
         try {
             System.out.println("JDBC CODE HERE ....Handled by ThreadID ");
+
             try {
+
                 Class.forName("com.mysql.jdbc.Driver");
                 Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb", "root", "root");
                 Statement smt = con.createStatement();
                 ResultSet rs = smt.executeQuery("select * from item_details");
                 while (rs.next()) {
+                    ITEM_DETAILS d = new ITEM_DETAILS(rs.getString(1), rs.getString(4), rs.getInt(2), rs.getInt(3), 0);
                     System.out
                             .println(rs.getString(1) + " " + rs.getInt(2) + " " + rs.getInt(3) + " " + rs.getString(4));
+
+                    // we shall calculate the total here;
+                    double TOTAL = 0;
+                    if (d.type.toLowerCase() == "raw") {
+                        TOTAL = d.price + 0.125 * (d.price);
+                    } else if (d.type.toLowerCase() == "manufactured") {
+                        TOTAL = d.price + 0.125 * d.price + 0.02 * (d.price + 0.125 * (d.price));
+
+                    } else if (d.type.toLowerCase() == "imported") {
+                        TOTAL = d.price + 0.1 * (d.price) + 0.125 * (d.price);
+                        if (TOTAL <= 100) {
+                            TOTAL += 5;
+                        } else if (TOTAL > 100 && TOTAL <= 200) {
+                            TOTAL += 10;
+                        } else {
+                            TOTAL += (0.05 * TOTAL);
+                        }
+                    }
+
+                    d.total = TOTAL;
+
+                    Details.add(d);
                 }
 
                 con.close();
