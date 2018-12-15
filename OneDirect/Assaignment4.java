@@ -18,7 +18,7 @@ class ITEM_DETAILS {
     }
 }
 
-class Mythread1 implements Runnable {
+class Mythread1 extends Mythread2 implements Runnable {
     String name;
     Thread t;
 
@@ -41,6 +41,7 @@ class Mythread1 implements Runnable {
                 Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb", "root", "root");
                 Statement smt = con.createStatement();
                 ResultSet rs = smt.executeQuery("select * from item_details");
+                
                 while (rs.next()) {
                     ITEM_DETAILS d = new ITEM_DETAILS(rs.getString(1), rs.getString(4), rs.getInt(2), rs.getInt(3), 0);
                     System.out
@@ -64,10 +65,22 @@ class Mythread1 implements Runnable {
                             TOTAL += (0.05 * TOTAL);
                         }
                     }
-
                     d.total = TOTAL;
                     System.out.println("\n\nTotal Cost of the item " + d.name + " : " + d.total);
                     Details.add(d);
+                    // retrieve_from_collection(d);
+                    /*
+                     * protected void retrieve_from_collection(){
+                     * 
+                     * System.out.println("Retrieving from the collection : \n\n\n");
+                     * System.out.println("Name "+"Price "+" Quantity "+"Type "
+                     * +"Total Cost Including Tax ");
+                     * 
+                     * Iterator itr = Details.iterator(); while(itr.hasNext()){ ITEM_DETAILS id =
+                     * (ITEM_DETAILS) itr.next(); System.out.println(id.name +
+                     * " "+id.price+" "+id.quantity+" "+id.type+" "+id.total); } }
+                     */
+                    retrieve_from_collection(d, Details);
                 }
 
                 con.close();
@@ -85,17 +98,23 @@ class Mythread2 implements Runnable {
     String name;
     Thread t;
 
-    Mythread2(String ThreadName) {
-        name = ThreadName;
-        t = new Thread(this, name);
-        System.out.println("New Thread : " + t.getName());
+    protected void retrieve_from_collection(ITEM_DETAILS ii, Vector Details) {
+        t = new Thread(this);
         t.start();
+        System.out.println("Retrieving from the collection : \n\n\n");
+        System.out.println("Name " + "Price " + " Quantity " + "Type " + "Total Cost Including Tax ");
+
+        Iterator itr = Details.iterator();
+        while (itr.hasNext()) {
+            ITEM_DETAILS id = (ITEM_DETAILS) itr.next();
+            System.out.println(ii.name + " " + ii.price + " " + ii.quantity + " " + ii.type + " " + ii.total);
+        }
     }
 
     public void run() {
         try {
             System.out.println("Retrieve from collection code is Handled by ThreadID :");
-            Thread.sleep(1000);
+
         } catch (Exception e) {
             System.out.println("Exception Occured : " + e);
         }
@@ -104,8 +123,8 @@ class Mythread2 implements Runnable {
 
 public class Threads {
     public static void main(String[] args) {
-        new Mythread1("JDBC Handler");
-        new Mythread2("Information Retriever");
+        new Mythread1("ThreadOne");
+
         System.out.println("Main Thread Exiting : ");
     }
 }
