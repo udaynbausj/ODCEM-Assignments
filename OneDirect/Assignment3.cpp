@@ -309,4 +309,8 @@ int main()
     {
         deleteDependancy(mp, registered_nodes);
     }
+    else if (userchoice == 6)
+    {
+        deleteNode(mp, registered_nodes);
+    }
 }
