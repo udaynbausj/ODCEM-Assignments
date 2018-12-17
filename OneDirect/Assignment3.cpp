@@ -123,6 +123,22 @@ void ancestors(map<int, bigGraph> mp, set<int> s)
     }
 }
 
+void helper_descendants(map<int, bigGraph> mp, int node, vector<bool> &visited)
+{
+    if (!visited[node])
+    {
+        bigGraph b = mp[node];
+        for (int i = 0; i < b.child_nodes.size(); i++)
+        {
+            if (!visited[b.child_nodes[i]])
+            {
+                cout << b.child_nodes[i] << " ";
+                visited[b.child_nodes[i]] = true;
+            }
+        }
+    }
+}
+
 void descendants(map<int, bigGraph> mp, set<int> s)
 {
 
@@ -131,6 +147,14 @@ void descendants(map<int, bigGraph> mp, set<int> s)
     cin >> nodeid;
     if (s.find(nodeid) != s.end())
     {
+        bigGraph b = mp[nodeid];
+        vector<bool> visited(10000, false);
+        //we need to have a simple recursive function here
+        for (int i = 0; i < b.child_nodes.size(); i++)
+        {
+            cout << b.child_nodes[i] << " ";
+            helper_descendants(mp, b.child_nodes[i], visited);
+        }
     }
     else
     {
@@ -201,5 +225,9 @@ int main()
     else if (userchoice == 3)
     {
         ancestors(mp, registered_nodes);
+    }
+    else if (userchoice == 4)
+    {
+        descendants(mp, registered_nodes);
     }
 }
