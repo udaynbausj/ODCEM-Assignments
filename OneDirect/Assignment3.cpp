@@ -26,7 +26,7 @@ void addedge(map<int, bigGraph> &mp, int source, int dest, bigGraph bg[])
 void printGraphInfo(map<int, bigGraph> mp)
 {
     cout << "\nRetrieving the Graph's Information : " << endl;
-    usleep(10000);
+    usleep(5000);
     for (auto itr = mp.begin(); itr != mp.end(); itr++)
     {
         cout << "\nNode id  : " << itr->first;
@@ -47,10 +47,34 @@ void printGraphInfo(map<int, bigGraph> mp)
     }
 }
 
-
-void getParent(){
-    
+void getImmediateParents(map<int,bigGraph>mp,set<int>s){
+    int nodeid;
+    cout<<"\nPlease enter the node id : ";cin>>nodeid;
+    if(s.find(nodeid)!=s.end()){
+        bigGraph b = mp[nodeid];
+        cout<<"\nGetting Immeditate Parent Nodes : )"<<endl;
+        for(int i= 0;i<b.parent_node.size();i++){
+            cout<<b.parent_node[i]<<" ";
+        }
+    }else{
+        cout<<"\nUnregistered Node : ) ";
+    }
 }
+
+
+void getImmediateChildren(map<int,bigGraph>mp,set<int>s){
+    int nodeid;
+    cout<<"\nPlease enter the node id : )"<<endl;
+    cin>>nodeid;
+    if(s.find(nodeid)!=s.end()){
+        bigGraph b = mp[nodeid];
+        cout<<"\nGetting Immediate Children Node : ) "<<endl;
+        for(int i = 0;i<b.child_nodes.size();i++){
+            cout<<b.child_nodes[i]<<" ";
+        }
+    }
+}
+
 
 
 
