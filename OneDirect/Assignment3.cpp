@@ -162,6 +162,49 @@ void descendants(map<int, bigGraph> mp, set<int> s)
     }
 }
 
+void deleteDependancy(map<int, bigGraph> mp, set<int> s)
+{
+    cout << "\nEnter the parent node : ) ";
+    int parent_node;
+    cin >> parent_node;
+    if (s.find(parent_node) != s.end())
+    {
+        int child_node;
+        cin >> child_node;
+        if (s.find(child_node) != s.end())
+        {
+            //lets check if there is a relation ship between them
+            bigGraph b1 = mp[parent_node];
+            bigGraph b2 = mp[child_node];
+            for (int i = 0; i < b1.child_nodes.size(); i++)
+            {
+                if (b1.child_nodes[i] == child_node)
+                {
+                    //lets delete dependancy
+                    auto itr1 = find(b1.child_nodes.begin(), b1.child_nodes.end(), child_node);
+                    auto itr2 = find(b2.parent_node.begin(), b2.parent_node.end(), parent_node);
+                    b1.child_nodes.erase(itr1);
+                    b2.parent_node.erase(itr2);
+                    cout << "\n\nDependancy Deleted : ) ";
+                }
+                else
+                {
+                    cout << "Sorry, there is no relation ship between them : ) ";
+                    return;
+                }
+            }
+        }
+        else
+        {
+            cout << "\nInvalid Child node ";
+        }
+    }
+    else
+    {
+        cout << "\nInvalid Parent Node ";
+    }
+}
+
 int main()
 {
 
