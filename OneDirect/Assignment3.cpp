@@ -205,6 +205,38 @@ void deleteDependancy(map<int, bigGraph> mp, set<int> s)
     }
 }
 
+void deleteNode(map<int, bigGraph> mp, set<int> s)
+{
+    cout << "\nEnter a node to delete it : )  ";
+    int node;
+    cin >> node;
+    if (s.find(node) != s.end())
+    {
+        bigGraph b = mp[node];
+        //lets walk through node's parents ;
+        for (int i = 0; i < b.parent_node.size(); i++)
+        {
+            //now delete dependancy of the node
+            int Parent = b.parent_node[i];
+            bigGraph bb = mp[Parent];
+            auto itr = find(bb.child_nodes.begin(), bb.child_nodes.end(), node);
+            bb.child_nodes.erase(itr);
+        }
+        for (int i = 0; i < b.child_nodes.size(); i++)
+        {
+            int Child = b.child_nodes[i];
+            bigGraph bb = mp[Child];
+            auto itr = find(bb.parent_node.begin(), bb.parent_node.end(), node);
+            bb.parent_node.erase(itr);
+        }
+        cout << "Node and It's Dependance purged successfully " << endl;
+    }
+    else
+    {
+        cout << "\nUnregistered node ";
+    }
+}
+
 int main()
 {
 
@@ -272,5 +304,9 @@ int main()
     else if (userchoice == 4)
     {
         descendants(mp, registered_nodes);
+    }
+    else if (userchoice == 5)
+    {
+        deleteDependancy(mp, registered_nodes);
     }
 }
