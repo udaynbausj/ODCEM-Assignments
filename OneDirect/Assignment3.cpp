@@ -55,7 +55,8 @@ void getImmediateParents(map<int, bigGraph> mp, set<int> s)
     if (s.find(nodeid) != s.end())
     {
         bigGraph b = mp[nodeid];
-        cout << "\nGetting Immeditate Parent Nodes : )\n" << endl;
+        cout << "\nGetting Immeditate Parent Nodes : )\n"
+             << endl;
         for (int i = 0; i < b.parent_node.size(); i++)
         {
             cout << b.parent_node[i] << " ";
@@ -80,6 +81,60 @@ void getImmediateChildren(map<int, bigGraph> mp, set<int> s)
         {
             cout << b.child_nodes[i] << " ";
         }
+    }
+}
+
+void helper_ancestor(map<int, bigGraph> mp, int node, vector<bool> &visited)
+{
+    if (!visited[node])
+    {
+        bigGraph b = mp[node];
+        for (int i = 0; i < b.parent_node.size(); i++)
+        {
+            if (!visited[b.parent_node[i]])
+            {
+                cout << b.parent_node[i] << " ";
+                visited[b.parent_node[i]] = true;
+            }
+        }
+    }
+}
+
+void ancestors(map<int, bigGraph> mp, set<int> s)
+{
+    //simple DFS will do the job
+    cout << "\nEnter the node to find his ancestors : )" << endl;
+    int nodeid;
+    cin >> nodeid;
+    if (s.find(nodeid) != s.end())
+    {
+        bigGraph b = mp[nodeid];
+        vector<bool> visited(10000, false);
+        //we need to have a recursive function  here
+        for (int i = 0; i < b.parent_node.size(); i++)
+        {
+            cout << b.parent_node[i] << " ";
+            helper_ancestor(mp, b.parent_node[i], visited);
+        }
+    }
+    else
+    {
+        cout << "\nUnregistered Node ; )";
+    }
+}
+
+void descendants(map<int, bigGraph> mp, set<int> s)
+{
+
+    cout << "\nEnter the node to find his descendants : ) " << endl;
+    int nodeid;
+    cin >> nodeid;
+    if (s.find(nodeid) != s.end())
+    {
+    }
+    else
+    {
+        cout << "\nUnregistered Node ; )";
     }
 }
 
@@ -124,14 +179,27 @@ int main()
 
     cout << "please select one of the options : )" << endl;
 
-    cout << "\n1.Get the immediate parents of a node, passing the node id as input parameter."<< "\n2.Get the immediate children of a node, passing the node id as input parameter."<< "\n3.Get the ancestors of a node, passing the node id as input parameter."<< "\n4.Get the descendants of a node, passing the node id as input parameter."<< "\n5.Delete dependency from a tree, passing parent node id and child node id."<< "\n6.Delete a node from a tree, passing node id as input parameter. This should delete all the dependencies of the node."<<"\n7.Add a new dependency to a tree, passing parent node id and child node id. This should check for cyclic dependencies."<<"\n8.Add a new node to tree. This node will have no parents and children. Dependency will be established by calling the 7 number API.";
-    cout<<"\n\n\n";
+    cout << "\n1.Get the immediate parents of a node, passing the node id as input parameter."
+         << "\n2.Get the immediate children of a node, passing the node id as input parameter."
+         << "\n3.Get the ancestors of a node, passing the node id as input parameter."
+         << "\n4.Get the descendants of a node, passing the node id as input parameter."
+         << "\n5.Delete dependency from a tree, passing parent node id and child node id."
+         << "\n6.Delete a node from a tree, passing node id as input parameter. This should delete all the dependencies of the node."
+         << "\n7.Add a new dependency to a tree, passing parent node id and child node id. This should check for cyclic dependencies."
+         << "\n8.Add a new node to tree. This node will have no parents and children. Dependency will be established by calling the 7 number API.";
+    cout << "\n\n\n";
     int userchoice;
-    cin>>userchoice;
+    cin >> userchoice;
     if (userchoice == 1)
     {
-        getImmediateParents(mp,registered_nodes);
-    }else if(userchoice==2){
-        getImmediateChildren(mp,registered_nodes);
+        getImmediateParents(mp, registered_nodes);
+    }
+    else if (userchoice == 2)
+    {
+        getImmediateChildren(mp, registered_nodes);
+    }
+    else if (userchoice == 3)
+    {
+        ancestors(mp, registered_nodes);
     }
 }
