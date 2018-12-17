@@ -237,6 +237,22 @@ void deleteNode(map<int, bigGraph> mp, set<int> s)
     }
 }
 
+void newDependancy(map<int, bigGraph> &mp, set<int> s)
+{
+    cout << "\nEnter parent node and child node to form a new dependancy : ";
+    cout << "\nEnter Parent node first and child node second : ) ";
+    int parent_node, child_node;
+    cin >> parent_node >> child_node;
+    if (s.find(parent_node) == s.end() || s.find(child_node) == s.end())
+    {
+        cout << "\nYou have entered invalid node : ) ";
+    }
+    else
+    {
+        //check for Cycle Dependancy
+    }
+}
+
 int main()
 {
 
