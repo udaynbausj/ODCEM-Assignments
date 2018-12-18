@@ -188,4 +188,34 @@ public class assignment4 {
         }
     }
 
+    public static void helper_descendant(HashMap<Integer, bigGraph> mp, Vector<Boolean> visited, int node) {
+        if (visited.get(node) == false) {
+            bigGraph b = mp.get(node);
+            for (int i = 0; i < b.child_node.size(); i++) {
+                System.out.print(b.child_node.get(i) + " ");
+                visited.set(b.child_node.get(i), true);
+            }
+        }
+    }
+
+    public static void descendants(HashMap<Integer, bigGraph> mp, HashSet<Integer> s) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        System.out.println("\nEnter the node to find his descendants : )");
+        int nodeid;
+        nodeid = Integer.parseInt(br.readLine());
+        if (s.contains(nodeid)) {
+            bigGraph b = mp.get(nodeid);
+            Vector<Boolean> visited = new Vector<>();
+            for (int i = 0; i < 10000; i++) {
+                visited.add(false);
+            }
+            for (int i = 0; i < b.child_node.size(); i++) {
+                System.out.print(b.child_node.get(i) + " ");
+                helper_descendant(mp, visited, b.child_node.get(i));
+            }
+        } else {
+            System.out.println("\nUnregistered Node : )");
+        }
+    }
+
 }
