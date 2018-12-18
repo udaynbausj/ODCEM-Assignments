@@ -255,6 +255,44 @@ public class assignment4 {
         }
     }
 
+    public static void deleteNode(HashMap<Integer, bigGraph> mp, HashSet<Integer> s) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        System.out.println("\nPlease enter the node to be deleted : )");
+        int nodeid = Integer.parseInt(br.readLine());
+        if (s.contains(nodeid)) {
+            // we need to remove all the dependancy to the node;
+            // we can get all the nodes which are connected to our node by refering
+            // parent_node,child_node vector
+            bigGraph b1 = mp.get(nodeid);
+            for (int i = 0; i < b1.child_node.size(); i++) {
+                int child = b1.child_node.get(i);
+                bigGraph b2 = mp.get(child);
+                for (int j = 0; j < b2.parent_node.size(); j++) {
+                    if (b2.parent_node.get(j) == nodeid) {
+                        b2.parent_node.remove(j);
+                        break;
+                    }
+                }
+                b1.child_node.set(i, 0);
+            }
+
+            for (int i = 0; i < b1.parent_node.size(); i++) {
+                int parent = b1.parent_node.get(i);
+                bigGraph b2 = mp.get(parent);
+                for (int j = 0; j < b2.child_node.size(); j++) {
+                    if (b2.child_node.get(j) == nodeid) {
+                        b2.child_node.remove(j);
+                        break;
+                    }
+                }
+                b1.parent_node.set(i, 0);
+            }
+            System.out.println("\nSuccessfully deleted a node and it's dependancies :  )");
+        } else {
+            System.out.println("\nUnregistered Node : )");
+        }
+    }
+
     public static boolean cycleCheck(HashMap<Integer, bigGraph> mp, HashSet<Integer> s) throws IOException {
 
     }
