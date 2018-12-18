@@ -99,7 +99,7 @@ public class assignment4 {
         } else if (userchoice == 4) {
             descendants(mp, registered_nodes);
         } else if (userchoice == 5) {
-            deleteNode(mp, registered_nodes);
+            deleteDependancy(mp, registered_nodes);
         } else if (userchoice == 6) {
 
         } else if (userchoice == 7) {
@@ -218,7 +218,7 @@ public class assignment4 {
         }
     }
 
-    public static void deleteNode(HashMap<Integer, bigGraph> mp, HashSet<Integer> s) throws IOException {
+    public static void deleteDependancy(HashMap<Integer, bigGraph> mp, HashSet<Integer> s) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
         System.out.println("\nEnter the parent node : ) ");
@@ -241,7 +241,7 @@ public class assignment4 {
                                 break;
                             }
                         }
-                        System.out.println("\nDependanct Deleted : ");
+                        System.out.println("\nDependancy Deleted : ");
                         return;
                     }
                 }
