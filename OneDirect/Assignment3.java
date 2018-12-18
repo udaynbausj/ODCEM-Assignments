@@ -1,4 +1,4 @@
-  import java.util.*;
+import java.util.*;
 import java.io.*;
 
 class bigGraph {
@@ -19,6 +19,14 @@ class bigGraph {
 }
 
 public class assignment4 {
+
+    public static void addedge(HashMap<Integer, bigGraph> mp, int source, int dest, bigGraph bg[]) {
+        bg[source].child_node.add(dest);
+        bg[dest].parent_node.add(source);
+        mp.put(source, bg[source]);
+        mp.put(dest, bg[dest]);
+    }
+
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         Scanner sc = new Scanner(System.in);
@@ -38,23 +46,31 @@ public class assignment4 {
         System.out.println("\nEnter 'Node id' , 'Node name' : \n");
         // bg[0].setData(0, "");
         for (int i = 0; i < vertices; i++) {
-            nodeid = Integer.parseInt(br.readLine());
-            nodename = br.readLine();
+            String str = br.readLine();
+            String[] tokens = str.split(" ");
+            nodeid = Integer.parseInt(tokens[0]);
+            nodename = tokens[1];
             // shit = br.readLine();
+            registered_nodes.add(nodeid);
+            if (registered_nodes.contains(nodeid) == false) {
+                System.out.println("Not found : ");
+            }
             bg[nodeid].id = nodeid;
             bg[nodeid].name = nodename;
             // bg[nodeid].name = nodename;
             // bg[nodeid].setData(nodeid, nodename);
         }
-        HashMap<Integer, bigGraph> mp;
+        HashMap<Integer, bigGraph> mp = new HashMap<>();
         System.out.println("\nHow many edges are you planning  ? \n");
         edges = Integer.parseInt(br.readLine());
         System.out.println("\nEnter source node first, dest node second : \n");
         for (int i = 0; i < edges; i++) {
-            node1 = Integer.parseInt(br.readLine());
-            node2 = Integer.parseInt(br.readLine());
-            if (!registered_nodes.contains(node1)) {
-
+            String str = br.readLine();
+            String[] tokens = str.split(" ");
+            node1 = Integer.parseInt(tokens[0]);
+            node2 = Integer.parseInt(tokens[1]);
+            if (registered_nodes.contains(node1)) {
+                addedge(mp, node1, node2, bg);
             } else {
                 System.out.println("\nYou have entered Unregistered node : ");
             }
@@ -94,4 +110,5 @@ public class assignment4 {
             System.out.println("\nNot a valid Number : )");
         }
     }
+
 }
