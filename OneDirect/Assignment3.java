@@ -1,4 +1,7 @@
 import java.util.*;
+
+import com.sun.org.apache.xpath.internal.operations.Bool;
+
 import java.io.*;
 
 class bigGraph {
@@ -92,7 +95,7 @@ public class assignment4 {
         } else if (userchoice == 2) {
             getImmediateChildren(mp, registered_nodes);
         } else if (userchoice == 3) {
-
+            ancestors(mp, registered_nodes);
         } else if (userchoice == 4) {
 
         } else if (userchoice == 5) {
@@ -148,6 +151,40 @@ public class assignment4 {
             }
         } else {
             System.out.println("\nUnregistered Node : )");
+        }
+    }
+
+    public static void helper_ancestor(HashMap<Integer, bigGraph> mp, int node, Vector<Boolean> visited) {
+        if (visited.get(node) == false) {
+            bigGraph b = mp.get(node);
+            for (int i = 0; i < b.parent_node.size(); i++) {
+                System.out.print(b.parent_node.get(i) + " ");
+                visited.set(b.parent_node.get(i), true);
+            }
+        }
+    }
+
+    public static void ancestors(HashMap<Integer, bigGraph> mp, HashSet<Integer> s) throws IOException {
+
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        System.out.println("\nEnter the node to find his ancestors : )");
+        int nodeid;
+        nodeid = Integer.parseInt(br.readLine());
+        if (s.contains(nodeid)) {
+            bigGraph b = mp.get(nodeid);
+            Vector<Boolean> visited = new Vector<>();
+            for (int i = 0; i < 10000; i++) {
+                visited.add(false);
+            }
+
+            for (int i = 0; i < b.parent_node.size(); i++) {
+                System.out.print(b.parent_node.elementAt(i) + " ");
+                helper_ancestor(mp, nodeid, visited);
+            }
+
+        } else {
+            System.out.println("\nUnregistered Node : ) ");
         }
     }
 
