@@ -255,4 +255,46 @@ public class assignment4 {
         }
     }
 
+    public static boolean cycleCheck(HashMap<Integer, bigGraph> mp, HashSet<Integer> s) throws IOException {
+
+    }
+
+    public static void newDependancy(HashMap<Integer, bigGraph> mp, HashSet<Integer> s) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int parent_node, child_node;
+        System.out.println("\nEnter the parent node : ) ");
+        parent_node = Integer.parseInt(br.readLine());
+        if (s.contains(parent_node)) {
+            System.out.println("\nEnter the child node ; ) ");
+            child_node = Integer.parseInt(br.readLine());
+            if (s.contains(child_node)) {
+                bigGraph b1 = mp.get(parent_node);
+                bigGraph b2 = mp.get(child_node);
+                if (b1.child_node.contains(child_node)) {
+                    System.out.println("\nRelationship already exists : ) ");
+                    return;
+                } else {
+                    // first form a relation, then check if there exists a cycle;
+                    b1.child_node.add(child_node);
+                    b2.parent_node.add(parent_node);
+                    // now dependancy is formed.
+                    // now check for cycle;
+                    if (cycleCheck(mp, s)) {
+                        System.out.println("\nThis relationship forms a cycle : )");
+                        // we need to remove the formed relation ship;
+                        b1.child_node.remove(b1.child_node.size() - 1);
+                        b2.parent_node.remove(b2.parent_node.size() - 1);
+                    } else {
+                        System.out.print("\nNew Dependancy added : )");
+                    }
+                }
+            } else {
+                System.out.println("\nUnregistered Child Node : )");
+            }
+        } else {
+            System.out.println("\nUnregistered Parent node : )");
+            return;
+        }
+    }
+
 }
