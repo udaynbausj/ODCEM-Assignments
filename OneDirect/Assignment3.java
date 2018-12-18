@@ -20,13 +20,6 @@ class bigGraph {
 
 public class assignment4 {
 
-    public static void addedge(HashMap<Integer, bigGraph> mp, int source, int dest, bigGraph bg[]) {
-        bg[source].child_node.add(dest);
-        bg[dest].parent_node.add(source);
-        mp.put(source, bg[source]);
-        mp.put(dest, bg[dest]);
-    }
-
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         Scanner sc = new Scanner(System.in);
@@ -87,10 +80,14 @@ public class assignment4 {
                 "\n7.Add a new dependency to a tree, passing parent node id and child node id. This should check for cyclic dependencies.");
         System.out.println(
                 "\n8.Add a new node to tree. This node will have no parents and children. Dependency will be established by calling the 7 number API.");
-        System.out.println("\n\n\n");
+        System.out.println("\n\n");
         int userchoice;
+
+        System.out.println("\nPlease enter the choice : ");
+
         userchoice = Integer.parseInt(br.readLine());
         if (userchoice == 1) {
+            getImmediateParents(mp, registered_nodes);
 
         } else if (userchoice == 2) {
 
@@ -108,6 +105,32 @@ public class assignment4 {
 
         } else {
             System.out.println("\nNot a valid Number : )");
+        }
+    }
+
+    public static void addedge(HashMap<Integer, bigGraph> mp, int source, int dest, bigGraph bg[]) {
+        bg[source].child_node.add(dest);
+        bg[dest].parent_node.add(source);
+        mp.put(source, bg[source]);
+        mp.put(dest, bg[dest]);
+    }
+
+    public static void getImmediateParents(HashMap<Integer, bigGraph> mp, HashSet<Integer> s) throws IOException {
+
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        int nodeid;
+        System.out.println("\nPlease enter the node id : ");
+        nodeid = Integer.parseInt(br.readLine());
+        if (s.contains(nodeid)) {
+            bigGraph b = new bigGraph();
+            b = mp.get(nodeid);
+            System.out.println("\nGetting Immediate parent nodes : ) \n");
+            for (int i = 0; i < b.parent_node.size(); i++) {
+                System.out.println(b.parent_node.elementAt(i) + " ");
+            }
+        } else {
+            System.out.println("\nUnregistered Node : ");
         }
     }
 
