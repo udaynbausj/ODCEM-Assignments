@@ -180,7 +180,7 @@ public class assignment4 {
 
             for (int i = 0; i < b.parent_node.size(); i++) {
                 System.out.print(b.parent_node.elementAt(i) + " ");
-                helper_ancestor(mp, nodeid, visited);
+                helper_ancestor(mp, b.parent_node.get(i), visited);
             }
 
         } else {
