@@ -97,7 +97,7 @@ public class assignment4 {
         } else if (userchoice == 3) {
             ancestors(mp, registered_nodes);
         } else if (userchoice == 4) {
-
+            descendants(mp,registered_nodes);
         } else if (userchoice == 5) {
 
         } else if (userchoice == 6) {
