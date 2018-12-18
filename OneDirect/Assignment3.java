@@ -90,7 +90,7 @@ public class assignment4 {
             getImmediateParents(mp, registered_nodes);
 
         } else if (userchoice == 2) {
-
+            getImmediateChildren(mp, registered_nodes);
         } else if (userchoice == 3) {
 
         } else if (userchoice == 4) {
@@ -127,10 +127,27 @@ public class assignment4 {
             b = mp.get(nodeid);
             System.out.println("\nGetting Immediate parent nodes : ) \n");
             for (int i = 0; i < b.parent_node.size(); i++) {
-                System.out.println(b.parent_node.elementAt(i) + " ");
+                System.out.print(b.parent_node.elementAt(i) + " ");
             }
         } else {
             System.out.println("\nUnregistered Node : ");
+        }
+    }
+
+    public static void getImmediateChildren(HashMap<Integer, bigGraph> mp, HashSet<Integer> s) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int nodeid;
+        System.out.println("\nEnter the nodeid to find the immediate children : ");
+        nodeid = Integer.parseInt(br.readLine());
+        if (s.contains(nodeid)) {
+            bigGraph b = new bigGraph();
+            b = mp.get(nodeid);
+            System.out.println("\nGetting Immediate Children nodes : ");
+            for (int i = 0; i < b.child_node.size(); i++) {
+                System.out.print(b.child_node.elementAt(i) + " ");
+            }
+        } else {
+            System.out.println("\nUnregistered Node : )");
         }
     }
 
