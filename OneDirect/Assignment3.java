@@ -97,9 +97,9 @@ public class assignment4 {
         } else if (userchoice == 3) {
             ancestors(mp, registered_nodes);
         } else if (userchoice == 4) {
-            descendants(mp,registered_nodes);
+            descendants(mp, registered_nodes);
         } else if (userchoice == 5) {
-
+            deleteNode(mp, registered_nodes);
         } else if (userchoice == 6) {
 
         } else if (userchoice == 7) {
@@ -215,6 +215,43 @@ public class assignment4 {
             }
         } else {
             System.out.println("\nUnregistered Node : )");
+        }
+    }
+
+    public static void deleteNode(HashMap<Integer, bigGraph> mp, HashSet<Integer> s) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        System.out.println("\nEnter the parent node : ) ");
+        int parent_node;
+        parent_node = Integer.parseInt(br.readLine());
+        if (s.contains(parent_node)) {
+            int child_node;
+            System.out.println("\nEnter the Child Node : ) ");
+            child_node = Integer.parseInt(br.readLine());
+            if (s.contains(child_node)) {
+                bigGraph b1 = mp.get(parent_node);
+                bigGraph b2 = mp.get(child_node);
+                for (int i = 0; i < b1.child_node.size(); i++) {
+                    if (b1.child_node.get(i) == child_node) {
+                        b1.child_node.remove(i);
+                        // b2.parent_node.remove(child_node);
+                        for (int j = 0; j < b2.parent_node.size(); j++) {
+                            if (b2.parent_node.get(j) == child_node) {
+                                b2.parent_node.remove(j);
+                                break;
+                            }
+                        }
+                        System.out.println("\nDependanct Deleted : ");
+                        return;
+                    }
+                }
+                System.out.println("Sorry there is no relationship between these two nodes : )");
+                return;
+            } else {
+                System.out.println("Not a valid Child Node :) ");
+            }
+        } else {
+            System.out.println("Not a valid node : )");
         }
     }
 
