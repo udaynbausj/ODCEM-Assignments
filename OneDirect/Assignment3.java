@@ -101,9 +101,9 @@ public class assignment4 {
         } else if (userchoice == 5) {
             deleteDependancy(mp, registered_nodes);
         } else if (userchoice == 6) {
-
+            deleteNode(mp, registered_nodes);
         } else if (userchoice == 7) {
-
+            newDependancy(mp, registered_nodes);
         } else if (userchoice == 8) {
 
         } else {
@@ -293,7 +293,36 @@ public class assignment4 {
         }
     }
 
-    public static boolean cycleCheck(HashMap<Integer, bigGraph> mp, HashSet<Integer> s) throws IOException {
+    public static void cycleCheckHelper(HashMap<Integer, bigGraph> mp, Vector<Boolean> visited, int node) {
+        visited.set(node, true);
+        System.out.print(node + " ");
+        for (int i = 0; i < mp.get(node).child_node.size(); i++) {
+            if (visited.get(mp.get(node).child_node.get(i)) == false) {
+                cycleCheckHelper(mp, visited, mp.get(node).child_node.get(i));
+            }
+        }
+    }
+
+    public static boolean cycleCheck(HashMap<Integer, bigGraph> mp, HashSet<Integer> s, int root) throws IOException {
+        // we shall do DFS. if we encounter the already visited node...then there must
+        // be a cycle : )
+        // below is, marking all the nodes as unvisited : )
+        Vector<Boolean> visited = new Vector<>();
+        for (int i = 0; i < 10000; i++) {
+            visited.add(false);
+        }
+        // lets decide a root node, any root will do the job : )
+        bigGraph rootNode = mp.get(root);
+        visited.set(root, true);
+        for (int i = 0; i < rootNode.child_node.size(); i++) {
+            if (visited.get(rootNode.child_node.get(i)) == false) {
+                cycleCheckHelper(mp, visited, rootNode.child_node.get(i));
+            } else {
+                System.out.println("\nCycle Detected  : ) ");
+                return false;
+            }
+        }
+        return true;
 
     }
 
@@ -317,7 +346,8 @@ public class assignment4 {
                     b2.parent_node.add(parent_node);
                     // now dependancy is formed.
                     // now check for cycle;
-                    if (cycleCheck(mp, s)) {
+                    // lets check from the given parent_node (Treating parent_node as root)
+                    if (cycleCheck(mp, s, parent_node)) {
                         System.out.println("\nThis relationship forms a cycle : )");
                         // we need to remove the formed relation ship;
                         b1.child_node.remove(b1.child_node.size() - 1);
