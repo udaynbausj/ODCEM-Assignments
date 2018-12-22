@@ -1,6 +1,7 @@
 package com.example.helloworld;
 import java.util.*;
 import java.io.*;
+//Jcommander is the library used to parse command line args with ease
 
 //following are the JCommander library's imports
 import com.beust.jcommander.Parameter;
@@ -24,7 +25,7 @@ class DETAILS{
     }
 }
 
-
+//following are the classes for throwing custom exception : )
 
 class User_Choice_1 extends Exception{
     User_Choice_1(String s){
@@ -49,6 +50,7 @@ class type_chice extends Exception{
 public class Assaignment1 {
 
     //Below code will allow user to enter the details from commandline
+    //the @Parameter is the annotation from 'jcommander'library
 
     @Parameter(names={"-name"})
     String Name;
@@ -71,7 +73,7 @@ public class Assaignment1 {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         char choice;
         double total_price=0;
-        //Creating a Datastructure to add new details
+        //Following is the code for Calculating 'Total_Tax' for the details entered in command line
         if(type.equals("manufactured")){
             total_price = price + 0.125*price + 0.02*(price + 0.125*(price));
         }else if(type.equals("raw")){
@@ -87,6 +89,7 @@ public class Assaignment1 {
             }
         }
 
+        //created vector data structure for storing item's details
         Vector<DETAILS>detailsArray = new Vector<>();
         DETAILS d = new DETAILS(Name,quantity,price,type,total_price);
 
@@ -94,6 +97,10 @@ public class Assaignment1 {
         detailsArray.add(d);
         System.out.println("Do you want to add more ? (y/n)");
         //takes  the input choice
+        
+        //after entering the details in command line, user is prompted for one more choice.
+        
+        //from here after, control goes to console....i.e standard input : )
         choice = (char) br.read();
         char choice_end;
         if(choice=='y') {
@@ -101,6 +108,7 @@ public class Assaignment1 {
 
             do {
                 float Price=0,Sales_tax = 0;int Quantity=0,type_choice = 0;String Name,Type="";
+                //used HashSet datastructure for restricting user on already given choices
                 HashSet<Integer> choices = new HashSet<>();
                 System.out.println("\nEnter the name of the items : ");
                 String name = br.readLine();
