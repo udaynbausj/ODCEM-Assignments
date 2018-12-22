@@ -4,6 +4,9 @@ import com.sun.org.apache.xpath.internal.operations.Bool;
 
 import java.io.*;
 
+
+//following is a class,which is a blueprint for a Node;
+//Node contains all the follwing details
 class bigGraph {
     int id;
     String name;
@@ -27,19 +30,25 @@ public class assignment4 {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         Scanner sc = new Scanner(System.in);
 
+        
+        //Letting user to enter no of vertices ;
         System.out.println("\nHow many Vertices are you planning ?\n");
         int vertices, edges, node1, node2, nodeid;
-        String nodename, shit;
+        String nodename;
         vertices = Integer.parseInt(br.readLine());
+        
+        //creating a array of classes;
         bigGraph bg[] = new bigGraph[10000];
 
-        // Learnt a big Lesson
+        // Instantiation of each class object
         for (int i = 0; i < 10000; i++) {
             bg[i] = new bigGraph();
         }
-
+        
+        //HashSet for storing nodeid details, as nodeid is unique
         HashSet<Integer> registered_nodes = new HashSet<>();
         System.out.println("\nEnter 'Node id' , 'Node name' : \n");
+        //getting nodeid, nodename as input
         // bg[0].setData(0, "");
         for (int i = 0; i < vertices; i++) {
             String str = br.readLine();
@@ -56,6 +65,7 @@ public class assignment4 {
             // bg[nodeid].name = nodename;
             // bg[nodeid].setData(nodeid, nodename);
         }
+        //Very imp data structures for storing graph details
         HashMap<Integer, bigGraph> mp = new HashMap<>();
         System.out.println("\nHow many edges are you planning  ? \n");
         edges = Integer.parseInt(br.readLine());
@@ -71,6 +81,8 @@ public class assignment4 {
                 System.out.println("\nYou have entered Unregistered node : ");
             }
         }
+        
+        //Menu driven form for users
         System.out.println("\nPlease select one of the options : \n\n");
         System.out.println("\n1.Get the immediate parents of a node, passing the node id as input parameter.");
         System.out.println("\n2.Get the immediate children of a node, passing the node id as input parameter.");
@@ -110,14 +122,16 @@ public class assignment4 {
             System.out.println("\nNot a valid Number : )");
         }
     }
-
+    
+    //code for adding an edge....directed edge
     public static void addedge(HashMap<Integer, bigGraph> mp, int source, int dest, bigGraph bg[]) {
         bg[source].child_node.add(dest);
         bg[dest].parent_node.add(source);
         mp.put(source, bg[source]);
         mp.put(dest, bg[dest]);
     }
-
+    
+    //code for getting immediate parents
     public static void getImmediateParents(HashMap<Integer, bigGraph> mp, HashSet<Integer> s) throws IOException {
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -137,6 +151,8 @@ public class assignment4 {
         }
     }
 
+    
+    //code for getting immediate children
     public static void getImmediateChildren(HashMap<Integer, bigGraph> mp, HashSet<Integer> s) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int nodeid;
@@ -153,6 +169,8 @@ public class assignment4 {
             System.out.println("\nUnregistered Node : )");
         }
     }
+    
+    //helper function for getting ancestor
 
     public static void helper_ancestor(HashMap<Integer, bigGraph> mp, int node, Vector<Boolean> visited) {
         if (visited.get(node) == false) {
@@ -164,6 +182,7 @@ public class assignment4 {
         }
     }
 
+    //code for finding ancestors
     public static void ancestors(HashMap<Integer, bigGraph> mp, HashSet<Integer> s) throws IOException {
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -187,6 +206,8 @@ public class assignment4 {
             System.out.println("\nUnregistered Node : ) ");
         }
     }
+    
+    //helper code for descendats
 
     public static void helper_descendant(HashMap<Integer, bigGraph> mp, Vector<Boolean> visited, int node) {
         if (visited.get(node) == false) {
@@ -198,6 +219,7 @@ public class assignment4 {
         }
     }
 
+    //code for finding descendants
     public static void descendants(HashMap<Integer, bigGraph> mp, HashSet<Integer> s) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         System.out.println("\nEnter the node to find his descendants : )");
@@ -218,6 +240,7 @@ public class assignment4 {
         }
     }
 
+    //code for deleting dependancy
     public static void deleteDependancy(HashMap<Integer, bigGraph> mp, HashSet<Integer> s) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
@@ -255,6 +278,7 @@ public class assignment4 {
         }
     }
 
+    //code for deleting node
     public static void deleteNode(HashMap<Integer, bigGraph> mp, HashSet<Integer> s) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         System.out.println("\nPlease enter the node to be deleted : )");
@@ -292,6 +316,7 @@ public class assignment4 {
             System.out.println("\nUnregistered Node : )");
         }
     }
+    //helper funciton for checking cycle
 
     public static void cycleCheckHelper(HashMap<Integer, bigGraph> mp, Vector<Boolean> visited, int node) {
         visited.set(node, true);
@@ -302,6 +327,8 @@ public class assignment4 {
             }
         }
     }
+    
+    //code for checking cycle
 
     public static boolean cycleCheck(HashMap<Integer, bigGraph> mp, HashSet<Integer> s, int root) throws IOException {
         // we shall do DFS. if we encounter the already visited node...then there must
@@ -326,6 +353,7 @@ public class assignment4 {
 
     }
 
+    //code for addind new dependancy
     public static void newDependancy(HashMap<Integer, bigGraph> mp, HashSet<Integer> s) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int parent_node, child_node;
